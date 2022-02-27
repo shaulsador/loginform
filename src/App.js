@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Form from './Form.js';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [info, setInfo] = useState({ name: '', email: '' });
+	const [error, setError] = useState('');
+	const Admin = { email: '123@456.com', password: 'xiaotian' };
+
+	const Login = (local) => {
+		if (local.email == Admin.email && local.password == Admin.password) {
+			setInfo({ name: local.name, email: local.email });
+		} else {
+			setError('info does not match');
+		}
+	};
+
+	const Logout = () => {
+		setInfo({ name: '', email: '' });
+		setError('');
+	};
+
+	return (
+		<div className='App'>
+			{info.email != '' ? (
+				<div className='welcome'>
+					<h1>
+						Welcome, <span>{info.name}</span>!
+					</h1>
+					<button onClick={Logout}>Log Out</button>
+				</div>
+			) : (
+				<Form Login={Login} error={error}></Form>
+			)}
+		</div>
+	);
 }
 
 export default App;
